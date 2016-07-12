@@ -18,11 +18,11 @@
                 white-space: nowrap;
             }
 
-            h3 {
+            h1 {
                 padding-bottom: 2%;
                 padding-left: 5%;
                 margin-bottom: 0%;
-                margin-top: 1%;
+                margin-top: 2%;
                 color: var(--dark-primary-color);
                 width: 80%;
                 float: left;
@@ -48,15 +48,20 @@
                 background-color: white;
             }
 
-        </style>
+            .container {
+                @apply(--layout-vertical);
+            }
 
-        <div id="table-header">
-            <h3 class="paper-font-display2">{{ title }}</h3>
-            <button-element icon="add-circle" color="orange" title="Nuevo" id="buttonMore"></button-element>
-        </div>
-        <div class="table-responsive shadow-z-1">
-            <!--<div class="table-responsive">-->
-            <table id="table" border="1" class="table table-hover table-mc-indigo"/>
+        </style>
+        <div class="container wrap">
+            <div id="table-header ">
+                <h1 class="paper-font-display2">{{ title }}</h1>
+                <button-element icon="add-circle" color="orange" title="Nuevo" id="buttonMore"></button-element>
+            </div>
+            <div class="table-responsive shadow-z-1">
+                <!--<div class="table-responsive">-->
+                <table id="table" border="1" class="table table-hover table-mc-indigo"/>
+            </div>
         </div>
     </template>
 
