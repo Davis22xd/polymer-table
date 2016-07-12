@@ -1,0 +1,127 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>polymer-table test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../app/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../app/bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../polymer-table.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <polymer-table></polymer-table>
+      </template>
+    </test-fixture>
+
+    <script>
+      var element, entity;
+      var nullError = " no debe ser null";
+      var data =
+              [
+                {
+                  "id": 1,
+                  "cooperativa": "Union",
+                  "nombre_completo": "Arturo Ruales",
+                  "telefono": "2255641",
+                  "direccion": {
+                    "calle_principal": "Tomás de Berlanga",
+                    "calle_secundaria": "Avenida de los Shyris"
+                  }
+                },
+                {
+                  "id": 2,
+                  "cooperativa": "Union",
+                  "nombre_completo": "paul",
+                  "telefono": "6021047",
+                  "direccion": {
+                    "calle_principal": "Río Amazonas",
+                    "calle_secundaria": "Jorge Washington"
+                  }
+                },
+                {
+                  "id": 3,
+                  "cooperativa": "Union",
+                  "nombre_completo": "Juan Llerena",
+                  "telefono": null,
+                  "direccion": {
+                    "calle_principal": "Avenida Amazonas",
+                    "calle_secundaria": "Avenida General Eloy Alfaro"
+                  }
+                }
+              ];
+
+      suite('polymer-table', function() {
+
+        setup(function() {
+          element = fixture('table');
+          entity = getEntityModel('client');
+        });
+
+        test('instantiating the element works', function() {
+          let element = fixture('basic');
+          assert.equal(element.is, 'polymer-table');
+        });
+
+        test('creating headers works', function() {
+          if (element) {
+            var titles = [];
+            element.headers = entity.table_headers;
+            element.fillHeaders();
+            var headers = element.$.table.querySelectorAll('td');
+            assert.isNotNull(headers);
+            expect(headers.length).to.not.equal(0);
+            for (var i = 0; i < headers.length; i++) {
+              titles[i] = headers[i].textContent;
+            }
+            expect(entity.table_headers.length + 1).to.eql(titles.length);
+            entity.table_headers.push('Acciones');  //The table headers should contain a column called Acciones
+            expect(entity.table_headers).to.eql(titles);
+          }
+        });
+
+        test('filling table works', function() {
+          if (element) {
+            element.headers = entity.table_headers;
+            element.entities = data;
+            element.fillHeaders();
+            element.fillTable();
+
+            var table = element.$.table;
+            expect(table.tHead).to.not.be.null;
+            expect(table.tBodies.length).to.not.equal(0);
+
+            var body = element.$.table.querySelector('tbody')
+            var rows = body.querySelectorAll('tr');
+            assert.isNotNull(rows);
+
+            expect(rows.length).to.not.equal(0);
+            expect(data.length).to.equal(rows.length);
+          }
+        });
+
+        test('deleting table works', function() {
+          if (element) {
+            element.headers = entity.table_headers;
+            element.entities = data;
+            element.fillHeaders();
+            element.fillTable();
+
+            var table = element.$.table;
+            expect(table.tHead).to.not.be.null;
+            expect(table.tBodies.length).to.not.equal(0);
+
+            element.removeTable();
+            expect(table.tHead).to.be.null;
+
+          }
+        });
+
+      });
+    </script>
+  </body>
+</html>
