@@ -1,13 +1,14 @@
 <link rel="import" href="app/bower_components/polymer/polymer.html">
+<link rel="import" href="button-element.html">
+<link rel="stylesheet" href="less/style.css">
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
 
 <dom-module id="polymer-table">
     <template>
         <style is="custom-style">
             @import "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic";
-
-            :host {
-                display: block;
-            }
 
             .table-responsive {
                 width: auto;
@@ -48,14 +49,6 @@
             }
 
         </style>
-        <!--<iron-ajax-->
-                <!--id="ajax"-->
-                <!--url="{{ url }}"-->
-                <!--params='{"format":"json"}'-->
-                <!--handle-as="json"-->
-                <!--last-response="{{entities}}"-->
-                <!--on-error="ajaxErrorRedirect"-->
-        <!--&gt;</iron-ajax>-->
 
         <div id="table-header">
             <h3 class="paper-font-display2">{{ title }}</h3>
@@ -79,16 +72,9 @@
                     entityName: String,
                     form: String,
                     headers: Object,
-//                    resource: {
-//                        type: String,
-//                        observer: 'formURL'
-//                    },
+
                     selected: Number,
                     title: String,
-//                    url: {
-//                        type: String,
-//                        observer: 'generateRequest'
-//                    },
                     tableActions: {type: Boolean, value: false},
                     entities: {type: Object, observer: 'entitiesChanged'}
                 },
@@ -110,24 +96,6 @@
                     e.detail.application = this.application;
                     this.fire(e.detail.event, e.detail);
                 },
-
-//                formURL: function(newValue, oldValue) {
-//                    if (newValue) {
-//                        this.url = getURL(newValue);
-//                    }
-//                },
-
-//                generateRequest: function(newValue, oldValue) {
-//                    this.$.ajax.generateRequest();
-//                },
-
-//                ajaxErrorRedirect: function(e, request) {
-//                    var status = request.request.xhr.status;
-//                    console.log(status);
-//                    if (status == 401 || status == 403) {
-//                        document.location.href = "../../login.html";
-//                    }
-//                },
 
                 attached: function() {
                     this.async(function() {

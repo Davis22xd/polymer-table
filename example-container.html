@@ -2,16 +2,27 @@
 <!--<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">-->
 <link rel="import" href="polymer-table.html">
 <link rel="import" href="app/bower_components/polymer/polymer.html">
+<link rel="import" href="app/bower_components/paper-material/paper-material.html">
 
 <script src="jss/example-entity.js"></script>
 
 <dom-module id="example-container">
+    <style>
+        :host {
+            display: block;
+        }
+        paper-material{
+            background-color: white;
+        }
+    </style>
     <template>
-        <polymer-table
-                id='{{entity.verbosePlural}}' headers='{{entity.table_headers}}'
-                resource='{{entity.url}}' title="{{title}}"
-                entity-name="{{entity.verbose}}" form="{{entity.entityName}}"
-                action-fields='{{entity.actionFields}}'></polymer-table>
+        <paper-material elevation="2">
+            <polymer-table
+                    id='{{entity.verbosePlural}}' headers='{{entity.table_headers}}'
+                    title="{{entity.verbosePlural}}"
+                    entity-name="{{entity.verbose}}" form="{{entity.entityName}}"
+                    action-fields='{{entity.actionFields}}'></polymer-table>
+        </paper-material>
     </template>
     <script>
         (function() {
@@ -28,7 +39,6 @@
                         observer: 'getData'
                     },
                 },
-
 
                 getData: function(newValue) {
                     if (newValue) {
