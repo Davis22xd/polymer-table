@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Arturo Ruales",
+    "phone": "2255641",
+    "address": {
+      "main_street": "Tomás de Berlanga",
+      "secondary_street": "Avenida de los Shyris"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Paul Rodriguez",
+    "phone": "6021047",
+    "address": {
+      "main_street": "Río Amazonas",
+      "secondary_street": "Jorge Washington"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Juan Llerena",
+    "phone": null,
+    "address": {
+      "main_street": "Avenida Amazonas",
+      "secondary_street": "Avenida General Eloy Alfaro"
+    }
+  }
+]

@@ -1,0 +1,72 @@
+<!-- Button element, this element is going to be have the buttons of add and remove  elements-->
+<!--<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">-->
+<link rel="import" href="app/bower_components/paper-item/paper-item.html">
+<link rel="import" href="app/bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="app/bower_components/polymer/polymer.html">
+
+<script src="jss/operations.js"></script>
+
+<dom-module id="button-element">
+    <style is="custom-style">
+        paper-icon-button {
+            color: var(--paper-icon-color);
+        }
+    </style>
+    <template>
+        <paper-icon-button icon="{{ icon }}" id="paperButton" title="{{ title }}"
+                           on-click="onClick">
+        </paper-icon-button>
+    </template>
+    <script>
+        (function() {
+            buttonElement = Polymer({
+                is: 'button-element',
+
+                //attributes that the button element has
+                properties: {
+                    title: {type: String},
+                    icon: {type: String},
+                    color: {
+                        type: String,
+                        observer: 'changeButtonColor'
+                    },
+                    form: {type: String},
+                    formAction: {type: String},
+                    type: {type: String},
+                    inline: {type: Boolean},
+                },
+
+                factoryImpl: function(title, icon, color, form, inline) {
+                    this.title = title;
+                    this.icon = icon;
+                    this.color = color;
+                    this.form = form;
+                    this.inline = inline;
+                },
+
+                changeButtonColor: function(newValue) {
+                    if (newValue) {
+                        updateStyleDOM(this, '--paper-icon-color', newValue);
+                    }
+                },
+
+                updateStyleDOM: function(variable, value) {
+                    this.customStyle[variable] = value;
+                    this.updateStyles();
+                },
+
+                onClick: function() {
+                    if (this.type == "inline") {
+                        this.fire('create-' + this.title + '-Form', this.parentNode);
+                    }
+                    else {
+                        this.fire('action-' + this.title, this.parentNode);
+                    }
+                }
+            });
+        })();
+
+    </script>
+
+</dom-module>

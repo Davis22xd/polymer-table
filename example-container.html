@@ -1,0 +1,60 @@
+<!-- Button element, this element is going to be have the buttons of add and remove  elements-->
+<!--<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">-->
+<link rel="import" href="polymer-table.html">
+<link rel="import" href="app/bower_components/polymer/polymer.html">
+
+<script src="jss/example-entity.js"></script>
+
+<dom-module id="example-container">
+    <template>
+        <polymer-table
+                id='{{entity.verbosePlural}}' headers='{{entity.table_headers}}'
+                resource='{{entity.url}}' title="{{title}}"
+                entity-name="{{entity.verbose}}" form="{{entity.entityName}}"
+                action-fields='{{entity.actionFields}}'></polymer-table>
+    </template>
+    <script>
+        (function() {
+            exampleContainer = Polymer({
+                is: 'example-container',
+
+                //attributes that the example container has
+                properties: {
+                    entity: {
+                        type: Object,
+                        value: function() {
+                            return example;
+                        },
+                        observer: 'getData'
+                    },
+                },
+
+
+                getData: function(newValue) {
+                    if (newValue) {
+                        this.loadJSON(function(response, table) {
+                            // Parse JSON string into object
+                            table.entities = JSON.parse(response);
+                        });
+                    }
+                },
+
+                loadJSON: function(callback) {
+                    var xobj = new XMLHttpRequest();
+                    xobj.overrideMimeType("application/json");
+                    xobj.open('GET', 'entities.json', true); // load your json data from your file or using an ajax element
+                    xobj.onreadystatechange = function() {
+                        if (xobj.readyState == 4 && xobj.status == "200") {
+                            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                            var table = this.querySelector('polymer-table');
+                            callback(xobj.responseText, table);
+                        }
+                    }.bind(this);
+                    xobj.send(null);
+                }
+            });
+        })();
+
+    </script>
+
+</dom-module>

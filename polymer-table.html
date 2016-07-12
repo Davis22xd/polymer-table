@@ -1,27 +1,395 @@
 <link rel="import" href="app/bower_components/polymer/polymer.html">
 
 <dom-module id="polymer-table">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]</h2>
-  </template>
+    <template>
+        <style is="custom-style">
+            @import "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic";
 
-  <script>
-    Polymer({
+            :host {
+                display: block;
+            }
 
-      is: 'polymer-table',
+            .table-responsive {
+                width: auto;
+                min-width: 810px;
+                overflow-x: scroll;
+                overflow-y: hidden;
+                white-space: nowrap;
+            }
 
-      properties: {
-        prop1: {
-          type: String,
-          value: 'polymer-table',
-        },
-      },
+            h3 {
+                padding-bottom: 2%;
+                padding-left: 5%;
+                margin-bottom: 0%;
+                margin-top: 1%;
+                color: var(--dark-primary-color);
+                width: 80%;
+                float: left;
+            }
 
-    });
-  </script>
+            button-element {
+                margin-top: 3%;
+            }
+
+            #buttonMore, #buttonLess {
+                float: right;
+                margin-right: 2%;
+                margin-top: 2%;
+            }
+
+            .table > tfoot > tr > td .actions {
+                white-space: nowrap;
+            }
+
+            #actions, .actions {
+                position: absolute;
+                right: 0;
+                background-color: white;
+            }
+
+        </style>
+        <!--<iron-ajax-->
+                <!--id="ajax"-->
+                <!--url="{{ url }}"-->
+                <!--params='{"format":"json"}'-->
+                <!--handle-as="json"-->
+                <!--last-response="{{entities}}"-->
+                <!--on-error="ajaxErrorRedirect"-->
+        <!--&gt;</iron-ajax>-->
+
+        <div id="table-header">
+            <h3 class="paper-font-display2">{{ title }}</h3>
+            <button-element icon="add-circle" color="orange" title="Nuevo" id="buttonMore"></button-element>
+        </div>
+        <div class="table-responsive shadow-z-1">
+            <!--<div class="table-responsive">-->
+            <table id="table" border="1" class="table table-hover table-mc-indigo"/>
+        </div>
+    </template>
+
+    <script>
+        (function() {
+            polymerTable = Polymer({
+                is: 'polymer-table',
+
+                //attributes that the table element has
+                properties: {
+                    actionFields: Object,
+                    data: Object,
+                    entityName: String,
+                    form: String,
+                    headers: Object,
+//                    resource: {
+//                        type: String,
+//                        observer: 'formURL'
+//                    },
+                    selected: Number,
+                    title: String,
+//                    url: {
+//                        type: String,
+//                        observer: 'generateRequest'
+//                    },
+                    tableActions: {type: Boolean, value: false},
+                    entities: {type: Object, observer: 'entitiesChanged'}
+                },
+
+                listeners: {
+                    'dispatch-crud-event': 'crudEventHandler',
+                    'action-Nuevo': 'actionNewFormHandler'
+                },
+
+                actionNewFormHandler: function() {
+                    this.fire('create-New-Form', {
+                        'form': this.form,
+                        'entityName': this.entityName, 'table': this, 'application': this.application
+                    });
+                },
+
+                crudEventHandler: function(e) {
+                    e.detail.table = this;
+                    e.detail.application = this.application;
+                    this.fire(e.detail.event, e.detail);
+                },
+
+//                formURL: function(newValue, oldValue) {
+//                    if (newValue) {
+//                        this.url = getURL(newValue);
+//                    }
+//                },
+
+//                generateRequest: function(newValue, oldValue) {
+//                    this.$.ajax.generateRequest();
+//                },
+
+//                ajaxErrorRedirect: function(e, request) {
+//                    var status = request.request.xhr.status;
+//                    console.log(status);
+//                    if (status == 401 || status == 403) {
+//                        document.location.href = "../../login.html";
+//                    }
+//                },
+
+                attached: function() {
+                    this.async(function() {
+                        // code that formerly resided in `domReady`
+                        if (this.tableActions == true) {
+                            this.$.buttonMore.hidden = true;
+                        }
+                    });
+                },
+
+                // when the attribute entitites changes, this function is called
+                entitiesChanged: function(newValue, oldValue) {
+                    this.buildHtmlTable();
+                },
+
+                // Builds the HTML Table,
+                // first we build the headers,
+                // then with the data retrived from the iron-ajax, we fill the table
+                buildHtmlTable: function() {
+                    this.fillHeaders();
+                    this.fillTable();
+                    this.setEventsInRows();
+                },
+
+                // Function to fill the headers in the table
+                fillHeaders: function() {
+                    var table = this.$.table;
+                    var header = table.createTHead();
+                    var row = header.insertRow(0);
+                    var finalindex;
+
+                    // var cell = row.insertCell(0);
+                    // cell.innerHTML = 'Acciones';
+
+                    for (index = 0; index < this.headers.length; index++) {
+                        var cell = row.insertCell(index);
+                        cell.innerHTML = this.headers[index];
+                        finalindex = index;
+                    }
+
+                    var cell = row.insertCell(finalindex + 1);
+                    cell.innerHTML = 'Acciones';
+                },
+
+                //add the className in an element of the table
+                addClass: function(element, classToAdd) {
+                    var currentClassValue = element.className;
+
+                    if (currentClassValue.indexOf(classToAdd) == -1) {
+                        if ((currentClassValue == null) || (currentClassValue === "")) {
+                            element.className = classToAdd;
+                        } else {
+                            element.className += " " + classToAdd;
+                        }
+                    }
+                },
+
+                // Function to fill the table with data
+                fillTable: function() {
+
+                    var number = 0;
+                    var body = this.$.table.createTBody();
+
+                    for (var item in this.entities) {
+
+                        var rowname = "elementTableRow" + number;
+                        var row = document.createElement("TR");
+                        row.setAttribute("id", rowname);
+                        body.appendChild(row);
+
+                        // this.createEditionRows(body, rowname);
+
+                        for (var key in this.entities[item]) {
+
+                            // If there's an entity inside another entity
+
+                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
+
+                                if (this.entities[item][key].calle_principal && this.entities[item][key].calle_secundaria) {
+                                    var cell = document.createElement("TD");
+                                    cell.setAttribute("data-title", key);
+                                    var cellContent = this.entities[item][key];
+                                    cell.innerHTML = cellContent.calle_principal + " y " + cellContent.calle_secundaria;
+                                    body.rows[rowname].appendChild(cell);
+                                }
+                                else {
+                                    for (var attribute in this.entities[item][key]) {
+                                        var cell = document.createElement("TD");
+                                        cell.setAttribute("data-title", key);
+                                        var cellContent = this.entities[item][key][attribute];
+                                        cell.innerHTML = cellContent;
+                                        body.rows[rowname].appendChild(cell);
+                                    }
+                                }
+                            }
+
+                            if (this.entities[item][key] == null) {
+                                var cell = document.createElement("TD");
+                                cell.setAttribute("data-title", key);
+                                var cellContent = "";
+                                cell.innerHTML = cellContent;
+                                body.rows[rowname].appendChild(cell);
+
+                            }
+
+                            //putting the id as an attribute of the row, for the selection
+                            if (key == "id") {
+                                row.setAttribute("entityId", this.entities[item][key]);
+                                row.setAttribute("entityName", this.entityName);
+                                row.setAttribute("form", this.form);
+                            }
+
+                            //set all the cells inside the row
+
+                            if (key == "tipo") {
+                                var types = [{"type": "COOPERATIVA", "number": 1},
+                                    {"type": "COMPAÑIA", "number": 2}
+                                ]
+                                for (var num in types) {
+                                    if (this.entities[item][key] == types[num].number) {
+                                        var cell = document.createElement("TD");
+                                        cell.setAttribute("data-title", key);
+                                        var cellContent = types[num].type;
+                                        cell.innerHTML = cellContent;
+                                        body.rows[rowname].appendChild(cell);
+                                    }
+                                }
+                            }
+
+                            if (key == "servicio") {
+                                var services = [{"service": "CONVENCIONAL", "number": 1},
+                                    {"service": "EJECUTIVA", "number": 2},
+                                    {"service": "RURAL", "number": 3},
+                                    {"service": "PERIFÉRICO", "number": 4}
+                                ]
+                                for (var num in services) {
+                                    if (this.entities[item][key] == services[num].number) {
+                                        var cell = document.createElement("TD");
+                                        cell.setAttribute("data-title", key);
+                                        var cellContent = services[num].service;
+                                        cell.innerHTML = cellContent;
+                                        body.rows[rowname].appendChild(cell);
+                                    }
+                                }
+                            }
+
+                            if (key != "id" && key != "tipo" && key != "servicio" && typeof(this.entities[item][key]) != "object") {
+
+                                var cell = document.createElement("TD");
+                                cell.setAttribute("data-title", key);
+                                var cellContent = this.entities[item][key];
+                                cell.innerHTML = cellContent;
+                                body.rows[rowname].appendChild(cell);
+                            }
+                        }
+
+                        this.createEditionRows(body, rowname);
+
+                        number++;
+                    }
+                },
+
+                reloadTable: function() {
+                    this.removeTable();
+                    this.$.ajax.generateRequest();
+                },
+
+                removeBodies: function(table) {
+                    var bodies = table.tBodies;
+                    for (var i = 0; i < bodies.length; i++) {
+                        table.removeChild(bodies[i]);
+                    }
+                },
+
+                removeTable: function() {
+                    var elem = this.$.table;
+                    var header = this.$.table.querySelector('thead');
+//          var body = this.$.table.querySelectorAll('tbody');
+                    elem.removeChild(header);
+//          elem.removeChild(body);
+                    this.removeBodies(elem);
+                },
+
+// this function set the events for the actions that we are going to do with each row in the table
+                setEventsInRows: function() {
+
+                    var rows = this.$.table.querySelector('tbody').querySelectorAll('tr');
+                    for (row in rows) {
+                        var rw = rows[row];
+
+                        if (typeof rw == 'object') {
+
+                            //Event listener for the edit action
+                            rw.addEventListener('action-Editar', function() {
+                                // var event = new Event('remove-Selected',{"bubbles":true,"cancelable":true});
+                                // this.dispatchEvent(event);
+                                this.className = "selected";
+                                var eventCreateForm = new CustomEvent('dispatch-crud-event',
+                                        {
+                                            'detail': {
+                                                'selected': this.getAttribute('entityId'),
+                                                'form': this.getAttribute('form'),
+                                                'entityName': this.getAttribute('entityName'),
+                                                'event': 'create-Edition-Form'
+                                            }, "bubbles": true, "cancelable": true
+                                        });
+                                this.dispatchEvent(eventCreateForm);
+                            });
+
+                            //Event listener for the delete action
+                            rw.addEventListener('action-Eliminar', function() {
+                                // var event = new Event('remove-Selected',{"bubbles":true,"cancelable":true});
+                                // this.dispatchEvent(event);
+                                this.className = "selected";
+                                var eventCreateForm = new CustomEvent('dispatch-crud-event',
+                                        {
+                                            'detail': {
+                                                'selected': this.getAttribute('entityId'),
+                                                'form': this.getAttribute('form'),
+                                                'entityName': this.getAttribute('entityName'),
+                                                'event': 'create-Elimination-Form'
+                                            }, "bubbles": true, "cancelable": true
+                                        });
+                                this.dispatchEvent(eventCreateForm);
+                            });
+                        }
+                    }
+                },
+
+                createEditionRows(body, rowname){
+                    var cell = document.createElement("TD");
+                    var cellContent;
+                    this.addClass(cell, "actions");
+                    for (var field in this.actionFields) {
+                        var createAction = "createActionButton" + this.actionFields[field];
+                        cellContent = this[createAction]();
+                        cell.appendChild(cellContent);
+                    }
+                    //this.setstaticColumnsCells(cell);
+                    body.rows[rowname].appendChild(cell);
+                },
+
+                createActionButtonEdit(){
+                    var elementName = 'button-element';
+                    var button = new buttonElement('Editar', 'create', 'lightseagreen', this.form);
+                    return button;
+                },
+
+                createActionButtonMessage(){
+                    var elementName = 'button-element';
+                    var button = new buttonElement('Mensaje', 'send', '#ECD078', this.form);
+                    return button;
+                },
+
+                createActionButtonDelete(){
+                    var elementName = 'button-element';
+                    var button = new buttonElement('Eliminar', 'delete', '#C02942');
+                    return button;
+                }
+
+            });
+        })();
+
+    </script>
 </dom-module>
