@@ -1,9 +1,12 @@
 <link rel="import" href="app/bower_components/polymer/polymer.html">
+<link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="button-element.html">
+<link rel="import" href="search-bar/search-bar.html">
 <link rel="stylesheet" href="less/style.css">
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 
 <dom-module id="polymer-table">
     <template>
@@ -32,10 +35,10 @@
                 margin-top: 3%;
             }
 
-            #buttonMore, #buttonLess {
+            #buttonMore {
                 float: right;
                 margin-right: 2%;
-                margin-top: 2%;
+                margin-top: 1%;
             }
 
             .table > tfoot > tr > td .actions {
@@ -52,12 +55,23 @@
                 @apply(--layout-vertical);
             }
 
+            #buttonSearch {
+                float: right;
+                color: #9C27B0;
+                margin-right: 2%;
+                margin-top: 1%;
+                visibility: var(--visibility-search);
+            }
+
         </style>
         <div class="container wrap">
             <div id="table-header ">
                 <h1 class="paper-font-display2">{{ title }}</h1>
                 <button-element icon="add-circle" color="orange" title="Nuevo" id="buttonMore"></button-element>
+                <paper-icon-button icon="search" title="Búsqueda" id="buttonSearch" class="btn-collapse"
+                                   on-click="toggleSearchCollapser"></paper-icon-button>
             </div>
+            <search-bar id="searchBar" label="{{searchLabel}}"></search-bar>
             <div class="table-responsive shadow-z-1">
                 <!--<div class="table-responsive">-->
                 <table id="table" border="1" class="table table-hover table-mc-indigo"/>
@@ -116,13 +130,33 @@
                     this.buildHtmlTable();
                 },
 
+//                searchInRows: function($rows) {
+//                        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+//                        $rows.show().filter(function() {
+//                            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+//                            return !~text.indexOf(val);
+//                        }).hide();
+//                },
+
                 // Builds the HTML Table,
                 // first we build the headers,
                 // then with the data retrived from the iron-ajax, we fill the table
+                //adding the search field
                 buildHtmlTable: function() {
                     this.fillHeaders();
                     this.fillTable();
                     this.setEventsInRows();
+//                    var $rows = this.$.table.tBodies[0].querySelectorAll('tr');
+                    var rows = Polymer.dom(this.root).querySelectorAll('.row');
+                    var inpt = Polymer.dom(this.root).querySelector('#searchBar').querySelector('input');
+                    $(inpt).keyup (function() {
+                        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+                        $(rows).show().filter(function() {
+                            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                            return !~text.indexOf(val);
+                        }).hide();
+                    });
                 },
 
                 // Function to fill the headers in the table
@@ -169,9 +203,10 @@
                         var rowname = "elementTableRow" + number;
                         var row = document.createElement("TR");
                         row.setAttribute("id", rowname);
+                        row.setAttribute('class','row');
                         body.appendChild(row);
 
-                        // this.createEditionRows(body, rowname);
+                        // this.createEditionRows, rowname);
 
                         for (var key in this.entities[item]) {
 
@@ -359,6 +394,10 @@
                     var elementName = 'button-element';
                     var button = new buttonElement('Eliminar', 'delete', '#C02942');
                     return button;
+                },
+
+                toggleSearchCollapser: function(event, detail, sender) {
+                    this.$.searchBar.toggle();
                 }
 
             });
