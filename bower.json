@@ -7,7 +7,8 @@
     "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.0",
     "paper-item": "PolymerElements/paper-item#^1.0.0",
     "paper-menu": "PolymerElements/paper-menu#^1.0.0",
-    "paper-input": "PolymerElements/paper-input#~1.1.14"
+    "paper-input": "PolymerElements/paper-input#~1.1.14",
+    "jquery": "~3.1.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

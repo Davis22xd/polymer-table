@@ -9,231 +9,114 @@
 <link rel="import" href="../app/bower_components/paper-item/paper-item.html">
 <link rel="import" href="../app/bower_components/iron-collapse/iron-collapse.html">
 
+<script src="../app/bower_components/jquery/dist/jquery.min.js"></script>
+
 <dom-module id="search-bar">
 
-  <style is="custom-style">
-    .container {
-      @apply(--layout-horizontal);
-      width: 90%;
-      padding-left: 5%;
-      padding-right: 5%;
-    }
+    <style is="custom-style">
+        .container {
+            @apply(--layout-horizontal);
+            width: 90%;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
 
-    .flexchild {
-      @apply(--layout-flex);
-    }
+        .flexchild {
+            @apply(--layout-flex);
+        }
 
-    .section {
-      margin-top: 3%;
-      margin-right: 5%;
-      padding-left: 5%;
-    }
+        .section {
+            margin-top: 3%;
+            margin-right: 5%;
+            padding-left: 5%;
+            padding-bottom: 5%;
+        }
 
-    #buttonCancel {
-      color: #F44336;
-    }
+        #buttonCancel {
+            color: #F44336;
+        }
 
+        #sectionSearch {
+            height: var(--section-search-height);
+        }
 
-    #fail {
-      color: #F44336;
-      visibility: var(--fail-visibility);
-    }
+        iron-collapse {
+            clear: both;
+            width: 100%;
+        }
 
+    </style>
+    <template>
+        <iron-collapse id="collapser">
+            <section class="container horizontal layout section" id="sectionSearch">
+                <paper-input floatinglabel class="flexchild" maxlength="254" id="field" value="{{value}}"
+                             label="{{label}}" placeholder="[[placeholder]]"></paper-input>
+                <paper-icon-button icon="cancel" title="Cancel" id="buttonCancel" class="flexchild"
+                                   on-click="restartSearchBar"></paper-icon-button>
+            </section>
+        </iron-collapse>
+    </template>
+    <script>
+        (function() {
+            searchBar = Polymer({
+                is: 'search-bar',
+                properties: {
+                    label: String,
+                    placeholder: {
+                        type: String,
+                        value: 'Buscar'
+                    },
+                    response: Object,
+                    value: {
+                        type: String,
+                        observer: 'changeValue'
+                    },
+                    searchSectionHeight: {
+                        type: String,
+                        value: '60px',
+                        observer: 'changeSearchSectionHeight'
+                    }
+                },
 
-    #success {
-      visibility: var(--success-visibility);
-    }
+                setSearchingDataSet(dataSet) {
+                    var inpt = Polymer.dom(this.$.field.root).querySelector('input');
+                    $(inpt).keyup(function() {
+                        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                        $(dataSet).show().filter(function() {
+                            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                            return !~text.indexOf(val);
+                        }).hide();
+                    });
+                },
 
-    #sectionSearch {
-      height: var(--section-search-height);
-    }
+                restartSearchBar() {
+                    this.$.field.value = '';
+                    this.display = '';
+                    this.toggle();
+                },
 
-    #sectionResult {
-      visibility: var(--result-section-success-visibility);
-      height: var(--result-section-success-height);
-    }
+                toggle() {
+                    this.searchSectionHeight = '60px';
+                    this.$.collapser.toggle();
+                },
 
-    #sectionError {
-      visibility: var(--result-section-fail-visibility);
-      height: var(--result-section-fail-height);
-    }
+                changeSearchSectionHeight: function(newValue) {
+                    if (newValue) {
+                        updateStyleDOM(this, '--section-search-height', newValue);
+                    }
+                },
 
-    iron-collapse {
-      clear: both;
-      width: 100%;
-    }
+                changeValue: function(newValue) {
+                    if (newValue && newValue !== '') {
+                        this.label = this.placeholder;
+                    }
+                    else if (newValue === '') {
+                        this.label = '';
+                    }
+                }
+            });
+        })();
 
-  </style>
-  <template>
-    <iron-collapse id="collapser">
-      <section class="container horizontal layout section" id="sectionSearch">
-        <paper-input floatinglabel class="flexchild" maxlength="254" id="field" value="{{value}}"
-                     label="{{label}}"></paper-input>
-        <paper-icon-button icon="cancel" title="Cancel" id="buttonCancel" class="flexchild"
-                           on-click="restartSearchBar"></paper-icon-button>
-      </section>
-      <!--<section class="flexchild horizontal layout section" id="sectionResult">-->
-        <!--<paper-item id="success">{{display}}</paper-item>-->
-        <!--<paper-icon-button icon="check" title="Añadir" id="buttonAdd" on-click="addEntity"></paper-icon-button>-->
-      <!--</section>-->
-      <section class="flexchild horizontal layout section" id="sectionError">
-        <paper-item id="fail">No existen resultados</paper-item>
-      </section>
-    </iron-collapse>
-  </template>
-  <script>
-    (function() {
-      searchBar = Polymer({
-        is: 'search-bar',
-        properties: {
-          label: String,
-          response: Object,
-          value: String,
-          resource: String,
-          searchResource: String,
-          display: {
-            type: String,
-          },
-          displayFunction: {
-            type: Object
-          },
-          failVisibility: {
-            type: String,
-            value: 'hidden',
-            observer: 'changeFailVisibility'
-          },
-          successVisibility: {
-            type: String,
-            value: 'hidden',
-            observer: 'changeSuccessVisibility'
-          },
-          resultSuccessSectionVisibility: {
-            type: String,
-            value: 'hidden',
-            observer: 'changeResultSuccessSectionVisibility'
-          },
-          resultFailSectionVisibility: {
-            type: String,
-            value: 'hidden',
-            observer: 'changeResultFailSectionVisibility'
-          },
-          resultSuccessSectionHeight: {
-            type: String,
-            value: '0px',
-            observer: 'changeResultSuccessSectionHeight'
-          },
-          resultFailSectionHeight: {
-            type: String,
-            value: '0px',
-            observer: 'changeResultFailSectionHeight'
-          },
-          searchSectionHeight: {
-            type: String,
-            value: '60px',
-            observer: 'changeSearchSectionHeight'
-          }
-        },
-
-        listeners: {
-          'create-Search-Form': 'search'
-        },
-
-        search(){
-//          this.$.ajax.method = 'GET';
-//          this.$.ajax.url = callCenterUrls[this.searchResource]() + this.$.field.value;
-//          this.$.ajax.generateRequest();
-        },
-
-        addEntity(){
-//          this.$.ajax.method = 'PUT';
-//          resource = entities[this.resource];
-//          var url = getURL(resource.url);
-//          this.$.ajax.url = url + this.response.id;
-//          this.$.ajax.generateRequest();
-        },
-        showResponse(event) {
-//          if (event.target.method == 'GET') {
-//            this.response = event.detail.response;
-//            this.display = this.displayFunction(this.response);
-//            this.failVisibility = 'hidden';
-//            this.successVisibility = 'visible';
-//            this.resultSuccessSectionVisibility = 'visible';
-//            this.resultFailSectionVisibility = 'hidden';
-//            this.resultSuccessSectionHeight = '48px';
-//            this.resultFailSectionHeight = '0px';
-//            this.searchSectionHeight = '60px';
-//          }
-//          else if (event.target.method == 'PUT') {
-//            this.fire('reload-list');
-//            this.restartSearchBar();
-//          }
-        },
-        restartSearchBar() {
-          this.$.field.value = '';
-          this.display = '';
-          this.resultSuccessSectionHeight = '0px';
-          this.resultFailSectionHeight = '0px';
-          this.resultFailSectionVisibility = 'hidden';
-          this.resultSuccessSectionVisibility = 'hidden';
-          this.toggle();
-        },
-
-//        showError(event) {
-//          this.failVisibility = 'visible';
-//          this.successVisibility = 'hidden';
-//          this.resultSuccessSectionVisibility = 'hidden';
-//          this.resultFailSectionVisibility = 'visible';
-//        },
-
-        toggle() {
-          this.searchSectionHeight = '60px';
-          this.$.collapser.toggle();
-        },
-
-        changeFailVisibility: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--fail-visibility', newValue);
-          }
-        },
-
-        changeSuccessVisibility: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--success-visibility', newValue);
-          }
-        },
-
-        changeResultSuccessSectionVisibility: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--result-section-success-visibility', newValue);
-          }
-        },
-
-        changeResultFailSectionVisibility: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--result-section-fail-visibility', newValue);
-          }
-        },
-
-        changeResultSuccessSectionHeight: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--result-section-success-height', newValue);
-          }
-        },
-
-        changeResultFailSectionHeight: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--result-section-fail-height', newValue);
-          }
-        },
-
-        changeSearchSectionHeight: function(newValue) {
-          if (newValue) {
-            updateStyleDOM(this, '--section-search-height', newValue);
-          }
-        },
-      });
-    })();
-
-  </script>
+    </script>
 
 </dom-module>

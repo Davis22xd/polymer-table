@@ -19,6 +19,13 @@ function updateStyleDOM(scope, variable, value) {
   scope.updateStyles();
 }
 
+//
+//function init() {
+//  var sorter = tsorter.create('TABLE-ID');
+//}
+//
+//window.onload = init;
+
 
 
 
