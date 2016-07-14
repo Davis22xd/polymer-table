@@ -78,8 +78,7 @@
             </div>
             <search-bar id="searchBar" label="{{searchLabel}}"></search-bar>
             <div class="table-responsive shadow-z-1">
-                <!--<div class="table-responsive">-->
-                <table id="table" border="1" class="table table-hover table-mc-indigo tablesorter"/>
+                <table id="table" border="1" class="table table-hover table-mc-indigo"/>
             </div>
         </div>
     </template>
@@ -110,13 +109,12 @@
                 actionNewFormHandler: function() {
                     this.fire('create-New-Form', {
                         'form': this.form,
-                        'entityName': this.entityName, 'table': this, 'application': this.application
+                        'table': this,
                     });
                 },
 
                 crudEventHandler: function(e) {
                     e.detail.table = this;
-                    e.detail.application = this.application;
                     this.fire(e.detail.event, e.detail);
                 },
 
@@ -158,14 +156,9 @@
                     var row = header.insertRow(0);
                     var finalindex;
 
-                    // var cell = row.insertCell(0);
-                    // cell.innerHTML = 'Acciones';
 
                     for (index = 0; index < this.headers.length; index++) {
 
-//                        var cell = row.insertCell(index);
-//                        cell.innerHTML = this.headers[index];
-//                        finalindex = index;
                         var th = document.createElement('th');
                         th.innerHTML = this.headers[index];
                         th.setAttribute('data-tsorter', 'input');
@@ -204,31 +197,9 @@
                         row.setAttribute('class', 'row');
                         body.appendChild(row);
 
-                        // this.createEditionRows, rowname);
 
                         for (var key in this.entities[item]) {
 
-                            // If there's an entity inside another entity
-
-//                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
-//
-//                                if (this.entities[item][key].calle_principal && this.entities[item][key].calle_secundaria) {
-//                                    var cell = document.createElement("TD");
-//                                    cell.setAttribute("data-title", key);
-//                                    var cellContent = this.entities[item][key];
-//                                    cell.innerHTML = cellContent.calle_principal + " y " + cellContent.calle_secundaria;
-//                                    body.rows[rowname].appendChild(cell);
-//                                }
-//                                else {
-//                                    for (var attribute in this.entities[item][key]) {
-//                                        var cell = document.createElement("TD");
-//                                        cell.setAttribute("data-title", key);
-//                                        var cellContent = this.entities[item][key][attribute];
-//                                        cell.innerHTML = cellContent;
-//                                        body.rows[rowname].appendChild(cell);
-//                                    }
-//                                }
-//                            }
 
                             if (this.entities[item][key] == null) {
                                 var cell = document.createElement("TD");
@@ -246,42 +217,6 @@
                                 row.setAttribute("form", this.form);
                             }
 
-                            //set all the cells inside the row
-
-//                            if (key == "tipo") {
-//                                var types = [{"type": "COOPERATIVA", "number": 1},
-//                                    {"type": "COMPAÑIA", "number": 2}
-//                                ]
-//                                for (var num in types) {
-//                                    if (this.entities[item][key] == types[num].number) {
-//                                        var cell = document.createElement("TD");
-//                                        cell.setAttribute("data-title", key);
-//                                        var cellContent = types[num].type;
-//                                        cell.innerHTML = cellContent;
-//                                        body.rows[rowname].appendChild(cell);
-//                                    }
-//                                }
-//                            }
-//
-//                            if (key == "servicio") {
-//                                var services = [{"service": "CONVENCIONAL", "number": 1},
-//                                    {"service": "EJECUTIVA", "number": 2},
-//                                    {"service": "RURAL", "number": 3},
-//                                    {"service": "PERIFÉRICO", "number": 4}
-//                                ]
-//                                for (var num in services) {
-//                                    if (this.entities[item][key] == services[num].number) {
-//                                        var cell = document.createElement("TD");
-//                                        cell.setAttribute("data-title", key);
-//                                        var cellContent = services[num].service;
-//                                        cell.innerHTML = cellContent;
-//                                        body.rows[rowname].appendChild(cell);
-//                                    }
-//                                }
-//                            }
-
-//                            if (key != "id" && key != "tipo" && key != "servicio" && typeof(this.entities[item][key]) != "object") {
-
                             else {
                                 var cell = document.createElement("TD");
                                 cell.setAttribute("data-title", key);
@@ -290,7 +225,6 @@
                                 body.rows[rowname].appendChild(cell);
                             }
                         }
-//                        }
 
                         this.createEditionRows(body, rowname);
                         number++;
@@ -312,9 +246,7 @@
                 removeTable: function() {
                     var elem = this.$.table;
                     var header = this.$.table.querySelector('thead');
-//          var body = this.$.table.querySelectorAll('tbody');
                     elem.removeChild(header);
-//          elem.removeChild(body);
                     this.removeBodies(elem);
                 },
 
@@ -329,15 +261,12 @@
 
                             //Event listener for the edit action
                             rw.addEventListener('action-Editar', function() {
-                                // var event = new Event('remove-Selected',{"bubbles":true,"cancelable":true});
-                                // this.dispatchEvent(event);
                                 this.className = "selected";
                                 var eventCreateForm = new CustomEvent('dispatch-crud-event',
                                         {
                                             'detail': {
                                                 'selected': this.getAttribute('entityId'),
                                                 'form': this.getAttribute('form'),
-                                                'entityName': this.getAttribute('entityName'),
                                                 'event': 'create-Edition-Form'
                                             }, "bubbles": true, "cancelable": true
                                         });
@@ -346,15 +275,12 @@
 
                             //Event listener for the delete action
                             rw.addEventListener('action-Eliminar', function() {
-                                // var event = new Event('remove-Selected',{"bubbles":true,"cancelable":true});
-                                // this.dispatchEvent(event);
                                 this.className = "selected";
                                 var eventCreateForm = new CustomEvent('dispatch-crud-event',
                                         {
                                             'detail': {
                                                 'selected': this.getAttribute('entityId'),
                                                 'form': this.getAttribute('form'),
-                                                'entityName': this.getAttribute('entityName'),
                                                 'event': 'create-Elimination-Form'
                                             }, "bubbles": true, "cancelable": true
                                         });
@@ -373,7 +299,6 @@
                         cellContent = this[createAction]();
                         cell.appendChild(cellContent);
                     }
-                    //this.setstaticColumnsCells(cell);
                     body.rows[rowname].appendChild(cell);
                 },
 

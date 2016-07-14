@@ -40,6 +40,12 @@
                     }
                 },
 
+                listeners: {
+                    'create-New-Form': 'showMessage',
+                    'create-Edition-Form': 'showMessage',
+                    'create-Elimination-Form': 'showMessage'
+                },
+
                 getData: function(newValue) {
                     if (newValue) {
                         this.loadJSON(function(response, table) {
@@ -61,6 +67,11 @@
                         }
                     }.bind(this);
                     xobj.send(null);
+                },
+
+                showMessage: function(event) {
+                    var form = event.detail.form;
+                    alert("Write the code to create " + form + " form");
                 }
             });
         })();
