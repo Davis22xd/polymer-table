@@ -68,18 +68,15 @@
               titles[i] = headers[i].textContent;
             }
             expect(entity.table_headers.length).to.eql(titles.length);
-//            entity.table_headers.push('Acciones');  //The table headers should contain a column called Acciones
             expect(entity.table_headers).to.eql(titles);
           }
         });
 
+        //run this test commenting the sort initialization in polymer-table element, in the 147 line
         test('filling table works', function() {
           if (element) {
             element.headers = entity.table_headers;
             element.entities = data;
-//            element.fillHeaders();
-//            element.fillTable();
-
             var table = element.$.table;
             expect(table.tHead).to.not.be.null;
             expect(table.tBodies.length).to.not.equal(0);
@@ -93,12 +90,11 @@
           }
         });
 
+        //run this test commenting the sort initialization in polymer-table element, in the 147 line
         test('deleting table works', function() {
           if (element) {
             element.headers = entity.table_headers;
             element.entities = data;
-            element.fillHeaders();
-            element.fillTable();
 
             var table = element.$.table;
             expect(table.tHead).to.not.be.null;

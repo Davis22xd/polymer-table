@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2ffe79d-3690-4044-9e8a-f1e76eb3925d" name="Default" comment="">
+    <list default="true" id="d2ffe79d-3690-4044-9e8a-f1e76eb3925d" name="Default" comment="refactoring polymer">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/polymer-table.html" afterPath="$PROJECT_DIR$/polymer-table.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search-bar/search-bar.html" afterPath="$PROJECT_DIR$/search-bar/search-bar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/polymer-table_test.html" afterPath="$PROJECT_DIR$/test/polymer-table_test.html" />
     </list>
     <ignored path="polymer-table.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,11 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="polymer-table.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="polymer-table.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/polymer-table.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.0422535">
-              <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+            <state vertical-scroll-proportion="-97.333336">
+              <caret line="146" column="23" selection-start-line="146" selection-start-column="23" selection-end-line="146" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="polymer-table_test.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/polymer-table_test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7837838">
+              <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -65,11 +74,11 @@
         <option value="$PROJECT_DIR$/jss/jquery.tablesorter.js" />
         <option value="$PROJECT_DIR$/table-example.html" />
         <option value="$PROJECT_DIR$/entities.json" />
-        <option value="$PROJECT_DIR$/test/polymer-table_test.html" />
         <option value="$PROJECT_DIR$/jss/operations.js" />
         <option value="$PROJECT_DIR$/example-container.html" />
         <option value="$PROJECT_DIR$/search-bar/search-bar.html" />
         <option value="$PROJECT_DIR$/polymer-table.html" />
+        <option value="$PROJECT_DIR$/test/polymer-table_test.html" />
       </list>
     </option>
   </component>
@@ -79,10 +88,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="58" />
-    <option name="y" value="47" />
+    <option name="x" value="65" />
+    <option name="y" value="-4" />
     <option name="width" value="1375" />
-    <option name="height" value="848" />
+    <option name="height" value="904" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -126,6 +135,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="polymer-table" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="polymer-table" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="polymer-table" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -232,11 +255,17 @@
       <option name="project" value="LOCAL" />
       <updated>1468511673978</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refactoring code in seach-bar and polymer-table&#10;">
+      <created>1468512226315</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1468512226315</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="58" y="47" width="1375" height="848" extended-state="0" />
+    <frame x="65" y="-4" width="1375" height="904" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -274,7 +303,8 @@
     <MESSAGE value="removing unnecessary code in example-container" />
     <MESSAGE value="refactoring simple table code" />
     <MESSAGE value="changes in design" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in design" />
+    <MESSAGE value="refactoring code in seach-bar and polymer-table&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring code in seach-bar and polymer-table&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -376,14 +406,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/polymer-table_test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.4225352">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/entities.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.53521127">
@@ -442,8 +464,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/polymer-table.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.0422535">
-          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+        <state vertical-scroll-proportion="-97.333336">
+          <caret line="146" column="23" selection-start-line="146" selection-start-column="23" selection-end-line="146" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/polymer-table_test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7837838">
+          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
           <folding />
         </state>
       </provider>
