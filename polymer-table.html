@@ -1,3 +1,4 @@
+
 <link rel="import" href="app/bower_components/polymer/polymer.html">
 <link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -231,11 +232,13 @@
                     }
                 },
 
+                //Function that removes all the table data and reload it
                 reloadTable: function() {
                     this.removeTable();
-                    this.$.ajax.generateRequest();
+                    this.fire('reload-data');
                 },
 
+                //Function that removes all the content of the body of the table
                 removeBodies: function(table) {
                     var bodies = table.tBodies;
                     for (var i = 0; i < bodies.length; i++) {
@@ -243,6 +246,7 @@
                     }
                 },
 
+                //Function that removes the header of the table and then calls removesBodies function
                 removeTable: function() {
                     var elem = this.$.table;
                     var header = this.$.table.querySelector('thead');
@@ -250,7 +254,7 @@
                     this.removeBodies(elem);
                 },
 
-// this function set the events for the actions that we are going to do with each row in the table
+                // this function set the events for the actions that we are going to do with each row in the table
                 setEventsInRows: function() {
 
                     var rows = this.$.table.querySelector('tbody').querySelectorAll('tr');
@@ -290,6 +294,7 @@
                     }
                 },
 
+                //According to the actionFileds this function creates the edition cells of each row
                 createEditionRows(body, rowname){
                     var cell = document.createElement("TD");
                     var cellContent;
@@ -302,18 +307,21 @@
                     body.rows[rowname].appendChild(cell);
                 },
 
+                //Creates a new edition button
                 createActionButtonEdit(){
                     var elementName = 'button-element';
                     var button = new buttonElement('Editar', 'create', 'lightseagreen', this.form);
                     return button;
                 },
 
+                //Creates a new message button
                 createActionButtonMessage(){
                     var elementName = 'button-element';
                     var button = new buttonElement('Mensaje', 'send', '#ECD078', this.form);
                     return button;
                 },
 
+                //create a new delete button
                 createActionButtonDelete(){
                     var elementName = 'button-element';
                     var button = new buttonElement('Eliminar', 'delete', '#C02942');

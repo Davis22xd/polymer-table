@@ -43,7 +43,8 @@
                 listeners: {
                     'create-New-Form': 'showMessage',
                     'create-Edition-Form': 'showMessage',
-                    'create-Elimination-Form': 'showMessage'
+                    'create-Elimination-Form': 'showMessage',
+                    'reload-data':'reloadData'
                 },
 
                 getData: function(newValue) {
@@ -72,6 +73,10 @@
                 showMessage: function(event) {
                     var form = event.detail.form;
                     alert("Write the code to create " + form + " form");
+                },
+
+                reloadData: function() {
+                    this.entity = example;
                 }
             });
         })();
