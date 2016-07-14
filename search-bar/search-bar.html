@@ -11,6 +11,7 @@ Developer: David Proaño <davisxdpfr@gmail.com>
 <link rel="import" href="../app/bower_components/paper-item/paper-item.html">
 <link rel="import" href="../app/bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../app/bower_components/polymer/polymer.html">
+<link rel="import" href="../app/bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <script src="../app/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../jss/operations.js"></script>
@@ -78,6 +79,7 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                     }
                 },
 
+                //Set the dataset where is going to be done the search
                 setSearchingDataSet(dataSet) {
                     var inpt = Polymer.dom(this.$.field.root).querySelector('input');
                     $(inpt).keyup(function() {
@@ -89,16 +91,19 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                     });
                 },
 
+                //Button to close the search section and reload component
                 restartSearchBar() {
                     this.$.field.value = '';
                     this.display = '';
                     this.toggle();
                 },
 
+
                 toggle() {
                     this.searchSectionHeight = '60px';
                     this.$.collapser.toggle();
                 },
+
 
                 changeSearchSectionHeight: function(newValue) {
                     if (newValue) {
@@ -106,6 +111,7 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                     }
                 },
 
+                //Change the label and the placeholder according to the the value of the paper-input
                 changeValue: function(newValue) {
                     if (newValue && newValue !== '') {
                         this.label = this.placeholder;
