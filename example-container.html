@@ -1,4 +1,4 @@
-<!-- Button element, this element is going to be have the buttons of add and remove  elements-->
+<!-- Element to contain the polymer-table element, in this element we retrieve the data to fill the table-->
 <!--<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">-->
 <link rel="import" href="polymer-table.html">
 <link rel="import" href="app/bower_components/polymer/polymer.html">
@@ -37,7 +37,7 @@
                             return example;
                         },
                         observer: 'getData'
-                    },
+                    }
                 },
 
                 getData: function(newValue) {

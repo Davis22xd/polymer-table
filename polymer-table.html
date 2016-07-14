@@ -1,10 +1,13 @@
 <link rel="import" href="app/bower_components/polymer/polymer.html">
 <link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
+
 <link rel="import" href="button-element.html">
 <link rel="import" href="search-bar/search-bar.html">
+
 <link rel="stylesheet" href="less/style.css">
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/style.css">
+
 <script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
 <script src="app/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <!--<script src="jss/operations.js" type="text/javascript"></script>-->
@@ -26,7 +29,7 @@
             h1 {
                 padding-bottom: 2%;
                 padding-left: 5%;
-                margin-bottom: 0%;
+                margin-bottom: 0;
                 margin-top: 2%;
                 color: var(--dark-primary-color);
                 width: 80%;
@@ -128,9 +131,10 @@
 
                 // when the attribute entitites changes, this function is called
                 entitiesChanged: function(newValue, oldValue) {
-                    this.buildHtmlTable();
+                    if (newValue) {
+                        this.buildHtmlTable();
+                    }
                 },
-
 
                 // Builds the HTML Table,
                 // first we build the headers,
@@ -142,7 +146,9 @@
                     this.setEventsInRows();
                     var rows = Polymer.dom(this.root).querySelectorAll('.row');
                     this.$.searchBar.setSearchingDataSet(rows);
-                    var sorter = tsorter.create('table');
+                    if (this.$.table) {
+                        var sorter = tsorter.create('table');
+                    }
                 },
 
                 // Function to fill the headers in the table
@@ -204,25 +210,25 @@
 
                             // If there's an entity inside another entity
 
-                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
-
-                                if (this.entities[item][key].calle_principal && this.entities[item][key].calle_secundaria) {
-                                    var cell = document.createElement("TD");
-                                    cell.setAttribute("data-title", key);
-                                    var cellContent = this.entities[item][key];
-                                    cell.innerHTML = cellContent.calle_principal + " y " + cellContent.calle_secundaria;
-                                    body.rows[rowname].appendChild(cell);
-                                }
-                                else {
-                                    for (var attribute in this.entities[item][key]) {
-                                        var cell = document.createElement("TD");
-                                        cell.setAttribute("data-title", key);
-                                        var cellContent = this.entities[item][key][attribute];
-                                        cell.innerHTML = cellContent;
-                                        body.rows[rowname].appendChild(cell);
-                                    }
-                                }
-                            }
+//                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
+//
+//                                if (this.entities[item][key].calle_principal && this.entities[item][key].calle_secundaria) {
+//                                    var cell = document.createElement("TD");
+//                                    cell.setAttribute("data-title", key);
+//                                    var cellContent = this.entities[item][key];
+//                                    cell.innerHTML = cellContent.calle_principal + " y " + cellContent.calle_secundaria;
+//                                    body.rows[rowname].appendChild(cell);
+//                                }
+//                                else {
+//                                    for (var attribute in this.entities[item][key]) {
+//                                        var cell = document.createElement("TD");
+//                                        cell.setAttribute("data-title", key);
+//                                        var cellContent = this.entities[item][key][attribute];
+//                                        cell.innerHTML = cellContent;
+//                                        body.rows[rowname].appendChild(cell);
+//                                    }
+//                                }
+//                            }
 
                             if (this.entities[item][key] == null) {
                                 var cell = document.createElement("TD");
@@ -242,40 +248,41 @@
 
                             //set all the cells inside the row
 
-                            if (key == "tipo") {
-                                var types = [{"type": "COOPERATIVA", "number": 1},
-                                    {"type": "COMPAÑIA", "number": 2}
-                                ]
-                                for (var num in types) {
-                                    if (this.entities[item][key] == types[num].number) {
-                                        var cell = document.createElement("TD");
-                                        cell.setAttribute("data-title", key);
-                                        var cellContent = types[num].type;
-                                        cell.innerHTML = cellContent;
-                                        body.rows[rowname].appendChild(cell);
-                                    }
-                                }
-                            }
+//                            if (key == "tipo") {
+//                                var types = [{"type": "COOPERATIVA", "number": 1},
+//                                    {"type": "COMPAÑIA", "number": 2}
+//                                ]
+//                                for (var num in types) {
+//                                    if (this.entities[item][key] == types[num].number) {
+//                                        var cell = document.createElement("TD");
+//                                        cell.setAttribute("data-title", key);
+//                                        var cellContent = types[num].type;
+//                                        cell.innerHTML = cellContent;
+//                                        body.rows[rowname].appendChild(cell);
+//                                    }
+//                                }
+//                            }
+//
+//                            if (key == "servicio") {
+//                                var services = [{"service": "CONVENCIONAL", "number": 1},
+//                                    {"service": "EJECUTIVA", "number": 2},
+//                                    {"service": "RURAL", "number": 3},
+//                                    {"service": "PERIFÉRICO", "number": 4}
+//                                ]
+//                                for (var num in services) {
+//                                    if (this.entities[item][key] == services[num].number) {
+//                                        var cell = document.createElement("TD");
+//                                        cell.setAttribute("data-title", key);
+//                                        var cellContent = services[num].service;
+//                                        cell.innerHTML = cellContent;
+//                                        body.rows[rowname].appendChild(cell);
+//                                    }
+//                                }
+//                            }
 
-                            if (key == "servicio") {
-                                var services = [{"service": "CONVENCIONAL", "number": 1},
-                                    {"service": "EJECUTIVA", "number": 2},
-                                    {"service": "RURAL", "number": 3},
-                                    {"service": "PERIFÉRICO", "number": 4}
-                                ]
-                                for (var num in services) {
-                                    if (this.entities[item][key] == services[num].number) {
-                                        var cell = document.createElement("TD");
-                                        cell.setAttribute("data-title", key);
-                                        var cellContent = services[num].service;
-                                        cell.innerHTML = cellContent;
-                                        body.rows[rowname].appendChild(cell);
-                                    }
-                                }
-                            }
+//                            if (key != "id" && key != "tipo" && key != "servicio" && typeof(this.entities[item][key]) != "object") {
 
-                            if (key != "id" && key != "tipo" && key != "servicio" && typeof(this.entities[item][key]) != "object") {
-
+                            else {
                                 var cell = document.createElement("TD");
                                 cell.setAttribute("data-title", key);
                                 var cellContent = this.entities[item][key];
@@ -283,9 +290,9 @@
                                 body.rows[rowname].appendChild(cell);
                             }
                         }
+//                        }
 
                         this.createEditionRows(body, rowname);
-
                         number++;
                     }
                 },
@@ -388,7 +395,7 @@
                     return button;
                 },
 
-                toggleSearchCollapser: function(event, detail, sender) {
+                toggleSearchCollapser: function() {
                     this.$.searchBar.toggle();
                 }
 

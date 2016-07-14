@@ -7,12 +7,13 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../app/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../app/bower_components/web-component-tester/browser.js"></script>
+    <script src="../jss/example-entity.js"></script>
 
     <link rel="import" href="../polymer-table.html">
   </head>
   <body>
 
-    <test-fixture id="basic">
+    <test-fixture id="table">
       <template>
         <polymer-table></polymer-table>
       </template>
@@ -25,33 +26,21 @@
               [
                 {
                   "id": 1,
-                  "cooperativa": "Union",
-                  "nombre_completo": "Arturo Ruales",
-                  "telefono": "2255641",
-                  "direccion": {
-                    "calle_principal": "Tomás de Berlanga",
-                    "calle_secundaria": "Avenida de los Shyris"
-                  }
+                  "name": "Arturo Ruales",
+                  "phone": "2255641",
+                  "address": "Tomás de Berlanga"
                 },
                 {
                   "id": 2,
-                  "cooperativa": "Union",
-                  "nombre_completo": "paul",
-                  "telefono": "6021047",
-                  "direccion": {
-                    "calle_principal": "Río Amazonas",
-                    "calle_secundaria": "Jorge Washington"
-                  }
+                  "name": "Paul Rodriguez",
+                  "phone": "6021047",
+                  "address": "Río Amazonas"
                 },
                 {
                   "id": 3,
-                  "cooperativa": "Union",
-                  "nombre_completo": "Juan Llerena",
-                  "telefono": null,
-                  "direccion": {
-                    "calle_principal": "Avenida Amazonas",
-                    "calle_secundaria": "Avenida General Eloy Alfaro"
-                  }
+                  "name": "Juan Llerena",
+                  "phone": "5658421",
+                  "address": "Avenida Amazonas"
                 }
               ];
 
@@ -59,11 +48,11 @@
 
         setup(function() {
           element = fixture('table');
-          entity = getEntityModel('client');
+          entity = example;
         });
 
         test('instantiating the element works', function() {
-          let element = fixture('basic');
+          let element = fixture('table');
           assert.equal(element.is, 'polymer-table');
         });
 
@@ -72,14 +61,14 @@
             var titles = [];
             element.headers = entity.table_headers;
             element.fillHeaders();
-            var headers = element.$.table.querySelectorAll('td');
+            var headers = element.$.table.querySelectorAll('th');
             assert.isNotNull(headers);
             expect(headers.length).to.not.equal(0);
             for (var i = 0; i < headers.length; i++) {
               titles[i] = headers[i].textContent;
             }
-            expect(entity.table_headers.length + 1).to.eql(titles.length);
-            entity.table_headers.push('Acciones');  //The table headers should contain a column called Acciones
+            expect(entity.table_headers.length).to.eql(titles.length);
+//            entity.table_headers.push('Acciones');  //The table headers should contain a column called Acciones
             expect(entity.table_headers).to.eql(titles);
           }
         });
@@ -88,8 +77,8 @@
           if (element) {
             element.headers = entity.table_headers;
             element.entities = data;
-            element.fillHeaders();
-            element.fillTable();
+//            element.fillHeaders();
+//            element.fillTable();
 
             var table = element.$.table;
             expect(table.tHead).to.not.be.null;
