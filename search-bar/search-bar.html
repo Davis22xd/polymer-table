@@ -20,9 +20,7 @@ Developer: David Proaño <davisxdpfr@gmail.com>
     <style is="custom-style">
         .container {
             @apply(--layout-horizontal);
-            width: 90%;
             padding-left: 5%;
-            padding-right: 5%;
         }
 
         .flexchild {
@@ -30,14 +28,12 @@ Developer: David Proaño <davisxdpfr@gmail.com>
         }
 
         .section {
-            margin-top: 3%;
-            margin-right: 5%;
-            padding-left: 5%;
-            padding-bottom: 5%;
+            margin-bottom: 3%;
         }
 
         #buttonCancel {
             color: #F44336;
+            margin-top: 2%;
         }
 
         #sectionSearch {
@@ -53,8 +49,8 @@ Developer: David Proaño <davisxdpfr@gmail.com>
     <template>
         <iron-collapse id="collapser">
             <section class="container horizontal layout section" id="sectionSearch">
-                <paper-input floatinglabel class="flexchild" maxlength="254" id="field" value="{{value}}"
-                             label="{{label}}" placeholder="[[placeholder]]"></paper-input>
+                <paper-input floatinglabel maxlength="254" id="field" value="{{value}}"
+                             label="{{label}}" placeholder="[[placeholder]]" class="flexchild"></paper-input>
                 <paper-icon-button icon="cancel" title="Cancel" id="buttonCancel" class="flexchild"
                                    on-click="restartSearchBar"></paper-icon-button>
             </section>
