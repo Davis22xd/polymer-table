@@ -1,5 +1,6 @@
 <link rel="import" href="app/bower_components/polymer/polymer.html">
 <link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="app/bower_components/paper-ripple/paper-ripple.html">
 
 <link rel="import" href="button-element.html">
 <link rel="import" href="search-bar.html">
@@ -161,11 +162,15 @@
                         var th = document.createElement('th');
                         th.innerHTML = this.headers[index];
                         th.setAttribute('data-tsorter', 'input');
+
+                        var ripple = document.createElement('paper-ripple');
                         var sortableIcon = document.createElement('sortable-icon');
                         th.appendChild(sortableIcon);
+                        th.appendChild(ripple);
                         th.addEventListener('sort-clicked', function() {
                             this.click();
                         });
+
                         row.appendChild(th);
 
                         finalIndex = index;
