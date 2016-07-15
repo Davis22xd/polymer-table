@@ -1,7 +1,7 @@
 <!doctype html>
 
 <html>
-  <head>
+<head>
     <title>polymer-table test</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
@@ -10,103 +10,103 @@
     <script src="../jss/example-entity.js"></script>
 
     <link rel="import" href="../polymer-table.html">
-  </head>
-  <body>
+</head>
+<body>
 
-    <test-fixture id="table">
-      <template>
+<test-fixture id="table">
+    <template>
         <polymer-table></polymer-table>
-      </template>
-    </test-fixture>
+    </template>
+</test-fixture>
 
-    <script>
-      var element, entity;
-      var nullError = " no debe ser null";
-      var data =
-              [
+<script>
+    var element, entity;
+    var nullError = " no debe ser null";
+    var data =
+            [
                 {
-                  "id": 1,
-                  "name": "Arturo Ruales",
-                  "phone": "2255641",
-                  "address": "Tomás de Berlanga"
+                    "id": 1,
+                    "name": "Arturo Ruales",
+                    "phone": "2255641",
+                    "address": "Tomás de Berlanga"
                 },
                 {
-                  "id": 2,
-                  "name": "Paul Rodriguez",
-                  "phone": "6021047",
-                  "address": "Río Amazonas"
+                    "id": 2,
+                    "name": "Paul Rodriguez",
+                    "phone": "6021047",
+                    "address": "Río Amazonas"
                 },
                 {
-                  "id": 3,
-                  "name": "Juan Llerena",
-                  "phone": "5658421",
-                  "address": "Avenida Amazonas"
+                    "id": 3,
+                    "name": "Juan Llerena",
+                    "phone": "5658421",
+                    "address": "Avenida Amazonas"
                 }
-              ];
+            ];
 
-      suite('polymer-table', function() {
+    suite('polymer-table', function() {
 
         setup(function() {
-          element = fixture('table');
-          entity = example;
+            element = fixture('table');
+            entity = example;
         });
 
         test('instantiating the element works', function() {
-          let element = fixture('table');
-          assert.equal(element.is, 'polymer-table');
+            let element = fixture('table');
+            assert.equal(element.is, 'polymer-table');
         });
 
         test('creating headers works', function() {
-          if (element) {
-            var titles = [];
-            element.headers = entity.table_headers;
-            element.fillHeaders();
-            var headers = element.$.table.querySelectorAll('th');
-            assert.isNotNull(headers);
-            expect(headers.length).to.not.equal(0);
-            for (var i = 0; i < headers.length; i++) {
-              titles[i] = headers[i].textContent;
+            if (element) {
+                var titles = [];
+                element.headers = entity.table_headers;
+                element.fillHeaders();
+                var headers = element.$.table.querySelectorAll('th');
+                assert.isNotNull(headers);
+                expect(headers.length).to.not.equal(0);
+                for (var i = 0; i < headers.length; i++) {
+                    titles[i] = headers[i].textContent;
+                }
+                expect(entity.table_headers.length).to.eql(titles.length);
+                expect(entity.table_headers).to.eql(titles);
             }
-            expect(entity.table_headers.length).to.eql(titles.length);
-            expect(entity.table_headers).to.eql(titles);
-          }
         });
 
         //run this test commenting the sort initialization in polymer-table element, in the 147 line
         test('filling table works', function() {
-          if (element) {
-            element.headers = entity.table_headers;
-            element.entities = data;
-            var table = element.$.table;
-            expect(table.tHead).to.not.be.null;
-            expect(table.tBodies.length).to.not.equal(0);
+            if (element) {
+                element.headers = entity.table_headers;
+                element.entities = data;
+                var table = element.$.table;
+                expect(table.tHead).to.not.be.null;
+                expect(table.tBodies.length).to.not.equal(0);
 
-            var body = element.$.table.querySelector('tbody')
-            var rows = body.querySelectorAll('tr');
-            assert.isNotNull(rows);
+                var body = element.$.table.querySelector('tbody')
+                var rows = body.querySelectorAll('tr');
+                assert.isNotNull(rows);
 
-            expect(rows.length).to.not.equal(0);
-            expect(data.length).to.equal(rows.length);
-          }
+                expect(rows.length).to.not.equal(0);
+                expect(data.length).to.equal(rows.length);
+            }
         });
 
         //run this test commenting the sort initialization in polymer-table element, in the 147 line
         test('deleting table works', function() {
-          if (element) {
-            element.headers = entity.table_headers;
-            element.entities = data;
+            if (element) {
+                element.headers = entity.table_headers;
+                element.entities = data;
 
-            var table = element.$.table;
-            expect(table.tHead).to.not.be.null;
-            expect(table.tBodies.length).to.not.equal(0);
+                var table = element.$.table;
+                expect(table.tHead).to.not.be.null;
+                expect(table.tBodies.length).to.not.equal(0);
 
-            element.removeTable();
-            expect(table.tHead).to.be.null;
+                element.removeTable();
+                expect(table.tHead).to.be.null;
 
-          }
+            }
         });
 
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>

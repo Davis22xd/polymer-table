@@ -18,13 +18,13 @@ Developer: David Proaño <davisxdpfr@gmail.com>
 
 <dom-module id="search-bar">
 
-    <style is="custom-style">
+    <style>
         .container {
-            @apply(--layout-horizontal);
             padding-left: 5%;
+            @apply(--layout-horizontal);
         }
 
-        .flexchild {
+        .flexChild {
             @apply(--layout-flex);
         }
 
@@ -45,21 +45,20 @@ Developer: David Proaño <davisxdpfr@gmail.com>
             clear: both;
             width: 100%;
         }
-
     </style>
     <template>
-        <iron-collapse id="collapser">
+        <iron-collapse id="collapse">
             <section class="container horizontal layout section" id="sectionSearch">
                 <paper-input floatinglabel maxlength="254" id="field" value="{{value}}"
-                             label="{{label}}" placeholder="[[placeholder]]" class="flexchild"></paper-input>
-                <paper-icon-button icon="cancel" title="Cancel" id="buttonCancel" class="flexchild"
+                             label="{{label}}" placeholder="[[placeholder]]" class="flexChild"></paper-input>
+                <paper-icon-button icon="cancel" title="Cancel" id="buttonCancel" class="flexChild"
                                    on-click="restartSearchBar"></paper-icon-button>
             </section>
         </iron-collapse>
     </template>
     <script>
         (function() {
-            searchBar = Polymer({
+            Polymer({
                 is: 'search-bar',
                 properties: {
                     label: String,
@@ -67,7 +66,6 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                         type: String,
                         value: 'Buscar'
                     },
-                    response: Object,
                     value: {
                         type: String,
                         observer: 'changeValue'
@@ -79,10 +77,10 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                     }
                 },
 
-                //Set the dataset where is going to be done the search
-                setSearchingDataSet(dataSet) {
-                    var inpt = Polymer.dom(this.$.field.root).querySelector('input');
-                    $(inpt).keyup(function() {
+                //Set the dataSet where is going to be done the search
+                setSearchingDataSet: function(dataSet) {
+                    var input = Polymer.dom(this.$.field.root).querySelector('input');
+                    $(input).keyup(function() {
                         var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
                         $(dataSet).show().filter(function() {
                             var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
@@ -92,19 +90,19 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                 },
 
                 //Button to close the search section and reload component
-                restartSearchBar() {
+                restartSearchBar: function() {
                     this.$.field.value = '';
                     this.display = '';
                     this.toggle();
                 },
 
-
-                toggle() {
+                //Toggle the collapse
+                toggle: function() {
                     this.searchSectionHeight = '60px';
-                    this.$.collapser.toggle();
+                    this.$.collapse.toggle();
                 },
 
-
+                //Change CSS property height
                 changeSearchSectionHeight: function(newValue) {
                     if (newValue) {
                         updateStyleDOM(this, '--section-search-height', newValue);
@@ -122,7 +120,6 @@ Developer: David Proaño <davisxdpfr@gmail.com>
                 }
             });
         })();
-
     </script>
 
 </dom-module>

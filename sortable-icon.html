@@ -1,0 +1,61 @@
+<!-- Button element, this element is going to be have the buttons of add and remove  elements-->
+<!--<link rel="import" href="../../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">-->
+<link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="app/bower_components/polymer/polymer.html">
+
+<script src="jss/operations.js"></script>
+
+<dom-module id="sortable-icon">
+    <style is="custom-style">
+        :host {
+            height: 32px;
+            width: 32px;
+        }
+
+        .icon {
+            color: var(--iron-icon-color);
+        }
+    </style>
+    <template>
+        <paper-icon-button noink class="icon" icon="{{icon}}" on-click="onClick"></paper-icon-button>
+    </template>
+    <script>
+        (function() {
+            sortableIcon = Polymer({
+                is: 'sortable-icon',
+
+                //attributes that the sortable icon has
+                properties: {
+                    icon: {
+                        type: String,
+                        value: 'arrow-drop-down'
+                    },
+                    color: {
+                        type: String,
+                        observer: 'changeIconColor'
+                    }
+                },
+
+                changeIconColor: function(newValue) {
+                    if (newValue) {
+                        updateStyleDOM(this, '--iron-icon-color', newValue);
+                    }
+                },
+
+                onClick: function() {
+                    if (this.icon) {
+                        if (this.icon == 'arrow-drop-down') {
+                            this.icon = 'arrow-drop-up';
+                        }
+                        else {
+                            this.icon = 'arrow-drop-down';
+                        }
+                        this.fire('sort-clicked');
+                    }
+                }
+            });
+        })();
+
+    </script>
+
+</dom-module>

@@ -1,9 +1,9 @@
-
 <link rel="import" href="app/bower_components/polymer/polymer.html">
 <link rel="import" href="app/bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="button-element.html">
 <link rel="import" href="search-bar.html">
+<link rel="import" href="sortable-icon.html">
 
 <link rel="stylesheet" href="less/style.css">
 <link rel="stylesheet" href="css/normalize.css">
@@ -14,7 +14,7 @@
 
 <dom-module id="polymer-table">
     <template>
-        <style is="custom-style">
+        <style>
             @import "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic";
 
             .table-responsive {
@@ -84,7 +84,7 @@
 
     <script>
         (function() {
-            polymerTable = Polymer({
+            Polymer({
                 is: 'polymer-table',
 
                 //attributes that the table element has
@@ -126,7 +126,7 @@
                     });
                 },
 
-                // when the attribute entitites changes, this function is called
+                // when the attribute entities changes, this function is called
                 entitiesChanged: function(newValue, oldValue) {
                     if (newValue) {
                         this.buildHtmlTable();
@@ -135,7 +135,7 @@
 
                 // Builds the HTML Table,
                 // first we build the headers,
-                // then with the data retrived from the iron-ajax, we fill the table
+                // then with the data retrieved from the iron-ajax, we fill the table
                 //adding the search field
                 buildHtmlTable: function() {
                     this.fillHeaders();
@@ -144,7 +144,7 @@
                     var rows = Polymer.dom(this.root).querySelectorAll('.row');
                     this.$.searchBar.setSearchingDataSet(rows);
                     if (this.$.table) {
-                        var sorter = tsorter.create('table');
+                        tsorter.create('table');
                     }
                 },
 
@@ -153,20 +153,27 @@
                     var table = this.$.table;
                     var header = table.createTHead();
                     var row = header.insertRow(0);
-                    var finalindex;
+                    var finalIndex;
 
 
-                    for (index = 0; index < this.headers.length; index++) {
+                    for (var index = 0; index < this.headers.length; index++) {
 
                         var th = document.createElement('th');
                         th.innerHTML = this.headers[index];
                         th.setAttribute('data-tsorter', 'input');
+                        var sortableIcon = document.createElement('sortable-icon');
+                        th.appendChild(sortableIcon);
+                        th.addEventListener('sort-clicked', function() {
+                            this.click();
+                        });
                         row.appendChild(th);
-                        finalindex = index;
+
+                        finalIndex = index;
                     }
 
-                    var cell = row.insertCell(finalindex + 1);
+                    var cell = row.insertCell(finalIndex + 1);
                     cell.innerHTML = 'Acciones';
+                    this.updateStyles();
                 },
 
                 //add the className in an element of the table
@@ -190,9 +197,9 @@
 
                     for (var item in this.entities) {
 
-                        var rowname = "elementTableRow" + number;
+                        var rowName = "elementTableRow" + number;
                         var row = document.createElement("TR");
-                        row.setAttribute("id", rowname);
+                        row.setAttribute("id", rowName);
                         row.setAttribute('class', 'row');
                         body.appendChild(row);
 
@@ -205,7 +212,7 @@
                                 cell.setAttribute("data-title", key);
                                 var cellContent = "";
                                 cell.innerHTML = cellContent;
-                                body.rows[rowname].appendChild(cell);
+                                body.rows[rowName].appendChild(cell);
 
                             }
 
@@ -221,11 +228,11 @@
                                 cell.setAttribute("data-title", key);
                                 var cellContent = this.entities[item][key];
                                 cell.innerHTML = cellContent;
-                                body.rows[rowname].appendChild(cell);
+                                body.rows[rowName].appendChild(cell);
                             }
                         }
 
-                        this.createEditionRows(body, rowname);
+                        this.createEditionRows(body, rowName);
                         number++;
                     }
                 },
@@ -256,7 +263,7 @@
                 setEventsInRows: function() {
 
                     var rows = this.$.table.querySelector('tbody').querySelectorAll('tr');
-                    for (row in rows) {
+                    for (var row in rows) {
                         var rw = rows[row];
 
                         if (typeof rw == 'object') {
@@ -293,7 +300,7 @@
                 },
 
                 //According to the actionFileds this function creates the edition cells of each row
-                createEditionRows(body, rowname){
+                createEditionRows(body, rowName){
                     var cell = document.createElement("TD");
                     var cellContent;
                     this.addClass(cell, "actions");
@@ -302,26 +309,23 @@
                         cellContent = this[createAction]();
                         cell.appendChild(cellContent);
                     }
-                    body.rows[rowname].appendChild(cell);
+                    body.rows[rowName].appendChild(cell);
                 },
 
                 //Creates a new edition button
                 createActionButtonEdit(){
-                    var elementName = 'button-element';
                     var button = new buttonElement('Editar', 'create', 'lightseagreen', this.form);
                     return button;
                 },
 
                 //Creates a new message button
                 createActionButtonMessage(){
-                    var elementName = 'button-element';
                     var button = new buttonElement('Mensaje', 'send', '#ECD078', this.form);
                     return button;
                 },
 
                 //create a new delete button
                 createActionButtonDelete(){
-                    var elementName = 'button-element';
                     var button = new buttonElement('Eliminar', 'delete', '#C02942');
                     return button;
                 },
