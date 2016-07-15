@@ -27,8 +27,8 @@
       <file leaf-file-name="polymer-table.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/polymer-table.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51274365">
-              <caret line="163" column="65" selection-start-line="163" selection-start-column="65" selection-end-line="163" selection-end-column="65" />
+            <state vertical-scroll-proportion="-0.29685158">
+              <caret line="166" column="47" selection-start-line="166" selection-start-column="47" selection-end-line="166" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -332,7 +332,13 @@
       <option name="project" value="LOCAL" />
       <updated>1468598112659</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="adding paper-ripple to add effect">
+      <created>1468599641724</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1468599641724</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -378,7 +384,8 @@
     <MESSAGE value="refactoring polymer -table test" />
     <MESSAGE value="refactoring search-bar element" />
     <MESSAGE value="adding paper-icon-button to sort table columns" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding paper-icon-button to sort table columns" />
+    <MESSAGE value="adding paper-ripple to add effect" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding paper-ripple to add effect" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -648,8 +655,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/polymer-table.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51274365">
-          <caret line="163" column="65" selection-start-line="163" selection-start-column="65" selection-end-line="163" selection-end-column="65" />
+        <state vertical-scroll-proportion="-0.29685158">
+          <caret line="166" column="47" selection-start-line="166" selection-start-column="47" selection-end-line="166" selection-end-column="47" />
           <folding />
         </state>
       </provider>

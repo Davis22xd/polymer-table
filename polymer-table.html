@@ -162,17 +162,15 @@
                         var th = document.createElement('th');
                         th.innerHTML = this.headers[index];
                         th.setAttribute('data-tsorter', 'input');
-
-                        var ripple = document.createElement('paper-ripple');
                         var sortableIcon = document.createElement('sortable-icon');
-                        th.appendChild(sortableIcon);
+                        var ripple = document.createElement('paper-ripple');
                         th.appendChild(ripple);
+                        th.appendChild(sortableIcon);
                         th.addEventListener('sort-clicked', function() {
                             this.click();
                         });
 
                         row.appendChild(th);
-
                         finalIndex = index;
                     }
 
