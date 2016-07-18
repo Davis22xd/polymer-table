@@ -3,18 +3,27 @@
     "id": 1,
     "name": "Arturo Ruales",
     "phone": "2255641",
-    "address": "Tomás de Berlanga"
+    "address": {
+      "main_street":"street 1",
+    "second_street":"street 2"
+    }
   },
   {
     "id": 2,
     "name": "Paul Rodriguez",
     "phone": "6021047",
-    "address": "Río Amazonas"
+    "address": {
+      "main_street":"street 1",
+      "second_street":"street 2"
+    }
   },
   {
     "id": 3,
     "name": "Juan Llerena",
     "phone": "5658421",
-    "address": "Avenida Amazonas"
+    "address": {
+      "main_street":"street 1",
+      "second_street":"street 2"
+    }
   }
 ]

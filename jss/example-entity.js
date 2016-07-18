@@ -7,7 +7,7 @@ var example = {
   'verbose': 'Example',
   'entityName':'example',
   'optional': false,
-  'table_headers': ['Name', 'Phone', 'Address'],
+  'table_headers': ['Name', 'Phone', 'Main Street', 'Second Street'],
   'actionFields': ['Edit','Delete'],
   'table':true,
   'tableActions': false,

@@ -210,6 +210,18 @@
                         for (var key in this.entities[item]) {
 
 
+                            // If there's an entity inside another entity
+
+                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
+                                    for (var attribute in this.entities[item][key]) {
+                                        var cell = document.createElement("TD");
+                                        cell.setAttribute("data-title", key);
+                                        var cellContent = this.entities[item][key][attribute];
+                                        cell.innerHTML = cellContent;
+                                        body.rows[rowName].appendChild(cell);
+                                    }
+                            }
+
                             if (this.entities[item][key] == null) {
                                 var cell = document.createElement("TD");
                                 cell.setAttribute("data-title", key);
@@ -226,7 +238,7 @@
                                 row.setAttribute("form", this.form);
                             }
 
-                            else {
+                            if (key != "id" && typeof(this.entities[item][key]) != "object") {
                                 var cell = document.createElement("TD");
                                 cell.setAttribute("data-title", key);
                                 var cellContent = this.entities[item][key];
