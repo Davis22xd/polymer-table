@@ -149,6 +149,14 @@
                     }
                 },
 
+                addContentToRow(body, rowName, content, key) {
+                    var cell = document.createElement("TD");
+                    cell.setAttribute("data-title", key);
+                    var cellContent = content;
+                    cell.innerHTML = cellContent;
+                    body.rows[rowName].appendChild(cell);
+                },
+
                 // Function to fill the headers in the table
                 fillHeaders: function() {
                     var table = this.$.table;
@@ -209,41 +217,38 @@
 
                         for (var key in this.entities[item]) {
 
+                            var maskName = key + 'Mask';
+                            if (this[maskName]) {
+                                var value = this[maskName](this.entities[item][key]);
+                                this.addContentToRow(body, rowName, value, key);
+                            }
 
-                            // If there's an entity inside another entity
+                            else {
 
-                            if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
+                                // If there's an entity inside another entity
+                                if (typeof(this.entities[item][key]) == "object" && this.entities[item][key] != null) {
                                     for (var attribute in this.entities[item][key]) {
-                                        var cell = document.createElement("TD");
-                                        cell.setAttribute("data-title", key);
-                                        var cellContent = this.entities[item][key][attribute];
-                                        cell.innerHTML = cellContent;
-                                        body.rows[rowName].appendChild(cell);
+                                        var content = this.entities[item][key][attribute];
+                                        this.addContentToRow(body, rowName, content, key);
                                     }
-                            }
+                                }
 
-                            if (this.entities[item][key] == null) {
-                                var cell = document.createElement("TD");
-                                cell.setAttribute("data-title", key);
-                                var cellContent = "";
-                                cell.innerHTML = cellContent;
-                                body.rows[rowName].appendChild(cell);
+                                if (this.entities[item][key] == null) {
+                                    var content = '';
+                                    this.addContentToRow(body, rowName, content, key);
+                                }
 
-                            }
+                                //putting the id as an attribute of the row, for the selection
+                                if (key == "id") {
+                                    row.setAttribute("entityId", this.entities[item][key]);
+                                    row.setAttribute("entityName", this.entityName);
+                                    row.setAttribute("form", this.form);
+                                }
 
-                            //putting the id as an attribute of the row, for the selection
-                            if (key == "id") {
-                                row.setAttribute("entityId", this.entities[item][key]);
-                                row.setAttribute("entityName", this.entityName);
-                                row.setAttribute("form", this.form);
-                            }
-
-                            if (key != "id" && typeof(this.entities[item][key]) != "object") {
-                                var cell = document.createElement("TD");
-                                cell.setAttribute("data-title", key);
-                                var cellContent = this.entities[item][key];
-                                cell.innerHTML = cellContent;
-                                body.rows[rowName].appendChild(cell);
+                                if (key != "id" && typeof(this.entities[item][key]) != "object") {
+                                    var content = this.entities[item][key];
+                                    this.addContentToRow(body, rowName, content, key);
+                                }
                             }
                         }
 

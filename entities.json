@@ -6,7 +6,8 @@
     "address": {
       "main_street":"street 1",
     "second_street":"street 2"
-    }
+    },
+    "type": 1
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "address": {
       "main_street":"street 1",
       "second_street":"street 2"
-    }
+    },
+    "type": 1
   },
   {
     "id": 3,
@@ -24,6 +26,7 @@
     "address": {
       "main_street":"street 1",
       "second_street":"street 2"
-    }
+    },
+    "type": 2
   }
 ]
